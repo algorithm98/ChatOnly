@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react';
+import api from '../config';
 
 const AuthContext = createContext(null);
 
@@ -20,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
     let cancelled = false;
 
-    fetch('/api/auth/me', {
+    fetch(api('/api/auth/me'), {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())

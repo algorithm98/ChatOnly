@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
+import api from '../config';
 
 const ArrowLeftIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -47,7 +48,7 @@ const ChatRoom = () => {
 
     const init = async () => {
       try {
-        const roomRes = await fetch(`/api/rooms/${roomId}`, {
+        const roomRes = await fetch(api(`/api/rooms/${roomId}`), {
           headers: { Authorization: `Bearer ${token}` },
         });
         const roomData = await roomRes.json();
@@ -59,13 +60,14 @@ const ChatRoom = () => {
 
         setRoom(roomData.room);
 
-        const msgRes = await fetch(`/api/rooms/${roomId}/messages`, {
+        const msgRes = await fetch(api(`/api/rooms/${roomId}/messages`), {
           headers: { Authorization: `Bearer ${token}` },
         });
         const msgData = await msgRes.json();
         if (msgRes.ok) setMessages(msgData.messages);
 
-        socketRef.current = io({
+        const backendUrl = import.meta.env.VITE_API_URL || window.location.origin;
+        socketRef.current = io(backendUrl, {
           auth: { token },
         });
 

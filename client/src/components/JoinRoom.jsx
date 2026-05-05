@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import api from '../config';
 
 const UsersIcon = () => (
   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -22,7 +23,7 @@ const JoinRoom = () => {
   useEffect(() => {
     const fetchRoom = async () => {
       try {
-        const res = await fetch(`/api/rooms/${roomId}`, {
+        const res = await fetch(api(`/api/rooms/${roomId}`), {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

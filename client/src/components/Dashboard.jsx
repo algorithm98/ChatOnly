@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import api from '../config';
 
 const PlusIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -63,7 +64,7 @@ const Dashboard = () => {
 
   const fetchRooms = async () => {
     try {
-      const res = await fetch('/api/rooms', {
+      const res = await fetch(api('/api/rooms'), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -78,7 +79,7 @@ const Dashboard = () => {
     if (!newRoomName.trim()) return;
 
     try {
-      const res = await fetch('/api/rooms', {
+      const res = await fetch(api('/api/rooms'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ const Dashboard = () => {
     if (!confirm('Are you sure you want to delete this room? This cannot be undone.')) return;
 
     try {
-      const res = await fetch(`/api/rooms/${roomId}`, {
+      const res = await fetch(api(`/api/rooms/${roomId}`), {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
