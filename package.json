@@ -6,7 +6,9 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node server/index.js",
     "client": "cd client && npm run dev",
-    "build": "cd client && npm run build",
+    "install:client": "cd client && npm install",
+    "build": "npm run install:client && cd client && npm run build",
+    "vercel-build": "cd client && npm install && npm run build",
     "start": "node server/index.js"
   },
   "dependencies": {
